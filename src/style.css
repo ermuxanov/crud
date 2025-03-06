@@ -1,0 +1,25 @@
+:root {
+  font-family: Arial, sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background: #e5e5e5;
+}
+button {
+  outline: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+input{
+  outline: none;
+  border: none;
+}
