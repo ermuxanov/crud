@@ -6,17 +6,17 @@ import ActionButton from "../shared/ActionButton.vue";
 import EditModal from "../modals/EditModal.vue";
 import AddModal from "../modals/AddModal.vue";
 import ModalStore from "../store/modal.js";
+import { API_URL } from "../store/api.js";
 
 const users = ref([]);
 const editUser = ref(null);
-const apiUrl = "https://67c884670acf98d07086e289.mockapi.io/users/users";
 
 const getUsers = async () => {
   try {
-    const response = await axios.get(apiUrl);
+    const response = await axios.get(API_URL);
     users.value = response.data;
   } catch (error) {
-    console.error("Ошибка загрузки постов:", error);
+    console.error(error);
   }
 };
 
@@ -25,21 +25,21 @@ const editFn = (user) => {
   ModalStore.show("edit");
 };
 
-const updateUserInList = (updatedUser) => {
+const updateUser = (updatedUser) => {
   const index = users.value.findIndex((user) => user.id === updatedUser.id);
   if (index !== -1) users.value[index] = updatedUser;
 };
 
-const addUserToList = (user) => {
+const addUser = (user) => {
   users.value.push(user);
 };
 
 const deleteFn = async (id) => {
   try {
-    await axios.delete(`${apiUrl}/${id}`);
+    await axios.delete(`${API_URL}/${id}`);
     users.value = users.value.filter((user) => user.id !== id);
   } catch (error) {
-    console.error("Ошибка удаления поста:", error);
+    console.error(error);
   }
 };
 
@@ -67,8 +67,8 @@ onMounted(() => {
           </div>
         </UserRow>
       </div>
-      <AddModal @addUser="addUserToList" />
-      <EditModal :editUser="editUser" @updateUser="updateUserInList" />
+      <AddModal @addUser="addUser" />
+      <EditModal :editUser="editUser" @updateUser="updateUser" />
     </div>
   </div>
 </template>

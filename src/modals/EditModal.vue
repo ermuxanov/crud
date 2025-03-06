@@ -2,6 +2,7 @@
 import { ref, watch, defineEmits } from "vue";
 import Modal from "../shared/Modal.vue";
 import ModalStore from "../store/modal.js";
+import { API_URL } from "../store/api.js";
 import ActionButton from "../shared/ActionButton.vue";
 import axios from "axios";
 
@@ -9,8 +10,10 @@ const props = defineProps({
   editUser: Object,
 });
 
+const emit = defineEmits(["updateUser"]);
+
 const editUser = ref({ id: null, name: "", email: "" });
-const apiUrl = "https://67c884670acf98d07086e289.mockapi.io/users/users";
+
 
 watch(
   () => props.editUser,
@@ -24,18 +27,16 @@ watch(
 
 const saveEdit = async () => {
   try {
-    await axios.put(`${apiUrl}/${editUser.value.id}`, {
+    await axios.put(`${API_URL}/${editUser.value.id}`, {
       name: editUser.value.name,
       email: editUser.value.email,
     });
     emit("updateUser", { ...editUser.value });
     ModalStore.hide("edit");
   } catch (error) {
-    console.error("Ошибка при обновлении пользователя:", error);
+    console.error(error);
   }
 };
-
-const emit = defineEmits(["updateUser"]);
 </script>
 <template>
   <Modal name="edit">

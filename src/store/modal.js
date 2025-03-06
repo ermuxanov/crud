@@ -1,7 +1,7 @@
 import { reactive } from "vue";
 
 class Modal {
-  constructor(string) {
+  constructor() {
     this.data = reactive({
       add: false,
       edit: false,

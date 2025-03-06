@@ -2,23 +2,24 @@
 import { ref, defineEmits } from "vue";
 import Modal from "../shared/Modal.vue";
 import ModalStore from "../store/modal.js";
+import { API_URL } from "../store/api.js";
 import ActionButton from "../shared/ActionButton.vue";
 import axios from "axios";
 
-const newUser = ref({ name: "", email: "" });
 const emit = defineEmits(["addUser"]);
-const apiUrl = "https://67c884670acf98d07086e289.mockapi.io/users/users";
+
+const newUser = ref({ name: "", email: "" });
 
 const addUser = async () => {
   if (!newUser.value.name || !newUser.value.email) return;
   try {
-    const response = await axios.post(apiUrl, newUser.value);
+    const response = await axios.post(API_URL, newUser.value);
     const addedUser = { ...newUser.value, id: response.data.id };
     emit("addUser", addedUser);
     newUser.value = { name: "", email: "" };
     ModalStore.hide("add");
   } catch (error) {
-    console.error("Ошибка при добавлении пользователя:", error);
+    console.error(error);
   }
 };
 </script>
